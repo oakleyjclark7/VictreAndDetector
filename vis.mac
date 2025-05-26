@@ -1,0 +1,66 @@
+# Use this open statement to create an OpenGL view:
+/vis/open OGL 1920x1080-0+0
+
+# Disable auto-refresh and quieten vis messages whilst the scene and trajectories are established:
+/vis/viewer/set/autoRefresh false  # <--- Disable auto-refresh here
+/vis/verbose errors
+
+# Draw geometry:
+/vis/drawVolume
+
+# Set surface style, remove world, culling
+/vis/geometry/set/forceWireframe World 0 true
+/vis/viewer/set/style wireframe
+
+# Specify view angle:
+/vis/viewer/set/upVector 1 0 0
+
+# DOWN THE Z AXIS
+#/vis/viewer/set/viewpointThetaPhi 0 0
+#/vis/viewer/set/lightsVector 1 0.5 0
+#/vis/viewer/set/targetPoint 0.0 0.0 0.5 m
+#/vis/viewer/zoomTo 2
+
+# DOWN THE X AXIS (Negative direction)
+#/vis/viewer/set/viewpointThetaPhi 90 0
+#/vis/viewer/set/lightsVector 1 0.5 0
+#/vis/viewer/set/targetPoint 0.0 0.0 -0.35 m
+#/vis/viewer/zoomTo 2.5
+
+# DOWN THE Y AXIS (Negative direction)
+/vis/viewer/set/viewpointThetaPhi 90 90
+/vis/viewer/set/lightsVector 1 0.5 0
+/vis/viewer/set/targetPoint -0.02 0.0 -0.35 m
+/vis/viewer/zoomTo 3
+
+# Text to show where the beam is
+/vis/scene/add/text -0.02 0.0 -0.7 m 24 0 0 BEAM
+
+# Scale
+/vis/scene/add/scale 0.7 m z 1 0 0 manual -0.1 0 -0.35 m
+/vis/scene/add/scale 0.025 m z 1 0 0 manual -0.03 0.08 -0.0125 m
+
+# Draw smooth trajectories at end of event, showing trajectory points as markers 2 pixels wide:
+/vis/scene/add/trajectories smooth
+/vis/modeling/trajectories/create/drawByCharge
+/vis/modeling/trajectories/drawByCharge-0/default/setDrawStepPts false
+/vis/modeling/trajectories/drawByCharge-0/default/setStepPtsSize 1
+# (if too many tracks cause core dump => /tracking/storeTrajectory 0)
+
+# Many other options are available with /vis/modeling and /vis/filtering.
+# For example, to select color by particle ID:
+/vis/modeling/trajectories/create/drawByParticleID
+/vis/modeling/trajectories/drawByParticleID-0/default/setDrawStepPts true
+# To select or override default colors (note: e+ is blue by default):
+/vis/modeling/trajectories/list
+/vis/modeling/trajectories/drawByParticleID-0/set e+ blue
+
+# To superimpose all of the events from a given run:
+/vis/scene/endOfEventAction accumulate
+
+# Re-enable auto-refresh and set verbosity for the viewer:
+# Refresh everything once the setup is complete:
+/vis/viewer/set/autoRefresh true   # <--- Re-enable auto-refresh here
+#/vis/viewer/refresh                # <--- Trigger the final refresh to render everything at once
+#/vis/verbose warnings
+

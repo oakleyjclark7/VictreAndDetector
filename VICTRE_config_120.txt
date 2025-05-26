@@ -1,0 +1,3 @@
+header_file = ExampleVictrePhantom/pc_120_cropped.mhd
+image_file = ExampleVictrePhantom/pc_120_cropped.raw.gz
+n_target_detector_events = 5000
